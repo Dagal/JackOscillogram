@@ -5,6 +5,9 @@
 #include <QPainter>
 #include <QTimer>
 #include <QDebug>
+#include <QVBoxLayout>
+
+#include "QJackOscillogram.h"
 
 #include <jack/jack.h>
 
@@ -16,25 +19,11 @@ public:
 	MainWindow(QWidget *parent = 0);
 	~MainWindow();
 
-	static int staticProcess(jack_nframes_t nframes, void* arg);
-	int process(jack_nframes_t nframes);
-	static int staticFrameRateChanged(jack_nframes_t nframes, void* arg);
-	int frameRateChanged(jack_nframes_t nframes);
-	static int staticBufferSizeChanged(jack_nframes_t nframes, void* arg);
-	int bufferSizeChanged(jack_nframes_t nframes);
-	void paintEvent(QPaintEvent* ev);
-
 private slots:
-	void startingBlock();
 
 private:
-	QTimer mTimer1;
-	jack_client_t* mClientJack;
-	jack_port_t* mPortJack;
-	jack_default_audio_sample_t* mBufferJack;
-	QVector<float> mBufferDatagram;
-	jack_nframes_t mJackFrames;
-	jack_nframes_t mJackBufferSize;
+	QJackOscillogram* oscillo1;
+	QJackOscillogram* oscillo2;
 };
 
 #endif // MAINWINDOW_H

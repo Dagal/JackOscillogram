@@ -14,6 +14,8 @@ TEMPLATE = app
 LIBS += -ljack
 
 SOURCES += main.cpp\
-				MainWindow.cpp
+				MainWindow.cpp \
+    QJackOscillogram.cpp
 
-HEADERS  += MainWindow.h
+HEADERS  += MainWindow.h \
+    QJackOscillogram.h
