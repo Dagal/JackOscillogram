@@ -11,6 +11,8 @@
 
 #include <jack/jack.h>
 
+#include "CJackClient.h"
+
 class MainWindow : public QMainWindow
 {
 	Q_OBJECT
@@ -22,6 +24,8 @@ public:
 private slots:
 
 private:
+	// Le client Jack
+	CJackClient* cJackClient;
 	QJackOscillogram* oscillo1;
 	QJackOscillogram* oscillo2;
 };

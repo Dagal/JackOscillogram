@@ -3,6 +3,9 @@
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
 {
+	qDebug("Création d'un client par défaut.");
+	cJackClient = new CJackClient();
+
 	qDebug("Création de la fenêtre principale.");
 	QWidget* widget = new QWidget(this);
 	QVBoxLayout* box = new QVBoxLayout;
