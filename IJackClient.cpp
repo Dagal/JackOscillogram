@@ -1,8 +1,8 @@
-#include "IJackClient.h"
+﻿#include "IJackClient.h"
 
-IJackClient::IJackClient()
+IJackClient::IJackClient(CJackClient* client)
 {
-
+	mCJackClient = client;
 }
 
 IJackClient::~IJackClient()
