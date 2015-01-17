@@ -42,6 +42,13 @@ int CJackClient::staticProcess(jack_nframes_t nframes, void* arg)
 
 int CJackClient::process(jack_nframes_t nframes)
 {
+	if (!mIJackClients.isEmpty())
+	{
+		foreach (IJackClient* ijc, mIJackClients)
+		{
+			ijc->subProcess(nframes);
+		}
+	}
 	return 0;
 }
 
@@ -76,6 +83,6 @@ void CJackClient::updateJackBuffer(jack_default_audio_sample_t* bufferJack)
 
 void CJackClient::addInterface(IJackClient* ijc)
 {
-
+	mIJackClients.append(ijc);
 }
 

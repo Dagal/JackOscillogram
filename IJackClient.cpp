@@ -10,6 +10,11 @@ IJackClient::~IJackClient()
 
 }
 
+int IJackClient::subProcess(jack_nframes_t nframes)
+{
+
+}
+
 CJackClient*IJackClient::getClient()
 {
 	return mCJackClient;

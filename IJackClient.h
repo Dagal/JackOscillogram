@@ -10,6 +10,8 @@ public:
 	IJackClient(CJackClient* client);
 	~IJackClient();
 
+	int subProcess(jack_nframes_t nframes);
+
 	CJackClient* getClient();
 
 private:
