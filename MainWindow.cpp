@@ -3,8 +3,8 @@
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
 {
-	qDebug("Création d'un client par défaut.");
-	cJackClient = new CJackClient();
+	qDebug("Création d'un client Jack.");
+	mCJackClient = new CJackClient("Mon Client Jack");
 
 	qDebug("Création de la fenêtre principale.");
 	QWidget* widget = new QWidget(this);

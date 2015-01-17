@@ -10,3 +10,8 @@ IJackClient::~IJackClient()
 
 }
 
+CJackClient*IJackClient::getClient()
+{
+	return mCJackClient;
+}
+

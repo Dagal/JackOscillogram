@@ -4,11 +4,14 @@
 #include <jack/jack.h>
 #include <QDebug>
 
+#include "IJackClient.h"
+class IJackClient;
+
 class CJackClient
 {
 public:
 	CJackClient();
-	CJackClient(char* name);
+	CJackClient(const char* name);
 	~CJackClient();
 
 	static int staticProcess(jack_nframes_t nframes, void* arg);
@@ -19,10 +22,14 @@ public:
 	int bufferSizeChanged(jack_nframes_t nframes);
 	void updateJackBuffer(jack_default_audio_sample_t* bufferJack);
 
+	void addInterface(IJackClient* ijc);
+
 private:
 	jack_client_t* mJackClient;
 	jack_nframes_t mJackFrameRate;
 	jack_nframes_t mJackBufferSize;
+
+	QList<IJackClient*> mIJackClients;
 };
 
 #endif // CJACKCLIENT_H

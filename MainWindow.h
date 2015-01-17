@@ -25,7 +25,7 @@ private slots:
 
 private:
 	// Le client Jack
-	CJackClient* cJackClient;
+	CJackClient* mCJackClient;
 	QJackOscillogram* oscillo1;
 	QJackOscillogram* oscillo2;
 };

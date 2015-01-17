@@ -2,13 +2,15 @@
 #define IJACKCLIENT_H
 
 #include "CJackClient.h"
-
+class CJackClient;
 
 class IJackClient
 {
 public:
 	IJackClient(CJackClient* client);
 	~IJackClient();
+
+	CJackClient* getClient();
 
 private:
 	CJackClient* mCJackClient;
