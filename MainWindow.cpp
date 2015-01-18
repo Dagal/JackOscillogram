@@ -3,17 +3,20 @@
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
 {
-	qDebug("Création d'un client Jack.");
-	mCJackClient = new CJackClient("Mon Client Jack");
+	mCJackClient = new CJackClient("QJackOscillogram");
+	qDebug("MainWindow: Création d'un client Jack");
 
-	qDebug("Création de la fenêtre principale.");
 	QWidget* widget = new QWidget(this);
+	qDebug("MainWindow: Création du widget principal");
 	QVBoxLayout* box = new QVBoxLayout;
 //	box.setParent(&widget);
-	oscillo1 = new QJackOscillogram(this);
+	oscillo1 = new QJackOscillogram(mCJackClient, this);
+	qDebug() << "MainWindow: Création d'un widget oscillogram ("
+					 << oscillo1
+					 << ")";
 	box->addWidget(oscillo1);
-	oscillo2 = new QJackOscillogram(this);
-	box->addWidget(oscillo2);
+//	oscillo2 = new QJackOscillogram(mCJackClient, this);
+//	box->addWidget(oscillo2);
 	widget->setLayout(box);
 	setCentralWidget(widget);
 }

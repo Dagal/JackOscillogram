@@ -1,37 +1,34 @@
 ﻿#include "QJackOscillogram.h"
 
-QJackOscillogram::QJackOscillogram(QWidget *parent) : QWidget(parent)
+QJackOscillogram::QJackOscillogram(CJackClient* cjc, QWidget *parent) :
+	QWidget(parent), IJackClient(cjc)
 {
-	qDebug("Création d'un QJackOscillogram.");
-	// Temporisation avant le démarrage de l'écoute
-	mTimer1.setInterval(1000);
-	mTimer1.start();
-	connect(&mTimer1,SIGNAL(timeout()),
-					this, SLOT(startingBlock()));
-	//mBufferDatagram.
-	mJackBufferSize = 0;
+	qDebug() << "QJackOscillogram: Création" << this;
+
+	// Création du port d'entrée audio
+	mJackPort = jack_port_register(getClient()->getClient(),
+																 "Input",
+																 JACK_DEFAULT_AUDIO_TYPE,
+																 JackPortIsInput,
+																 0);
+	qDebug() << "QJackOscillogram: Audio Input Port créé" << mJackPort;
+
+	mJackBufferSize = 512;
 }
 
 QJackOscillogram::~QJackOscillogram()
 {
-	qDebug("Destruction d'un QJackOscillogram");
-	mTimer1.stop();
-
-	qDebug("Destruction du client jack à revoir au plus vite");
-	jack_client_close(mJackClient);
+	qDebug("QJackOscillogram: Destruction");
 }
 
-int QJackOscillogram::staticProcess(jack_nframes_t nframes, void* arg)
+int QJackOscillogram::subProcess(jack_nframes_t nframes)
 {
-	static_cast<QJackOscillogram*>(arg)->process(nframes);
-}
-
-int QJackOscillogram::process(jack_nframes_t nframes)
-{
-	jack_nframes_t tailleBuffer = jack_get_buffer_size(mJackClient);
+//	qDebug("QJackOscillogram: Démarrage du sous processus");
+	jack_nframes_t tailleBuffer = jack_get_buffer_size(getClient()->getClient());
+//	qDebug() << "QJackOscillogram: Taille du buffer " << tailleBuffer;
 	mJackBuffer = (jack_default_audio_sample_t*) jack_port_get_buffer(mJackPort,
 																																		nframes);
-	//mBufferDatagram.clear();
+//	qDebug() << "QJackOscillogram: Buffer " << mJackBuffer;
 	for (int i=0;i<nframes;++i)
 	{
 		mDatagramBuffer.append(mJackBuffer[i]);
@@ -43,36 +40,6 @@ int QJackOscillogram::process(jack_nframes_t nframes)
 	update();
 }
 
-int QJackOscillogram::staticFrameRateChanged(jack_nframes_t nframes, void* arg)
-{
-
-}
-
-int QJackOscillogram::frameRateChanged(jack_nframes_t nframes)
-{
-
-}
-
-int QJackOscillogram::staticBufferSizeChanged(jack_nframes_t nframes, void* arg)
-{
-	static_cast<QJackOscillogram*>(arg)->bufferSizeChanged(nframes);
-}
-
-int QJackOscillogram::bufferSizeChanged(jack_nframes_t nframes)
-{
-	if (mDatagramBuffer.count() != nframes)
-	{
-		qDebug() << "JackOscillogram : Buffer Size Change from " << mJackBufferSize << " to " << nframes;
-		mJackBufferSize = nframes;
-		mDatagramBuffer.fill(0,nframes);
-	}
-}
-
-void QJackOscillogram::updateJackBuffer(jack_default_audio_sample_t* bufferJack)
-{
-
-}
-
 void QJackOscillogram::paintEvent(QPaintEvent* ev)
 {
 	QPainter painter(this);
@@ -82,7 +49,7 @@ void QJackOscillogram::paintEvent(QPaintEvent* ev)
 	{
 		float lastX;
 		float lastY;
-		for (int i=0;i < mJackBufferSize;++i)
+		for (int i=0;i < mDatagramBuffer.count();++i)
 		{
 			float x = (i * width() / mDatagramBuffer.count());
 			float y = (mDatagramBuffer[i] / 2.0 + 1) * height() / 2.0;
@@ -97,37 +64,9 @@ void QJackOscillogram::paintEvent(QPaintEvent* ev)
 			lastY = y;
 		}
 	}
+	else
+	{
+		qDebug("QJackOscillogram: Le buffer est vide");
+		painter.drawRect(10,10,10,10);
+	}
 }
-
-void QJackOscillogram::startingBlock()
-{
-	qDebug("Démarrage du programme");
-	mTimer1.stop();
-
-	// Création du client jack
-	mJackClient = jack_client_open("JackOscillogram",
-																 JackNullOption,
-																 NULL);
-
-	// Liaison avec la fonction de processing
-	jack_set_process_callback(mJackClient,
-														staticProcess,
-														this);
-
-	// Liaison avec la fonction de changement de la taille du buffer
-	// Ce qui va permettre d'ajuster la taille du buffer pour l'affichage
-	jack_set_buffer_size_callback(mJackClient,
-																staticBufferSizeChanged,
-																this);
-
-	// Création du port d'entrée audio
-	mJackPort = jack_port_register(mJackClient,
-																 "Input",
-																 JACK_DEFAULT_AUDIO_TYPE,
-																 JackPortIsInput,
-																 0);
-
-	// Activation du client jack
-	jack_activate(mJackClient);
-}
-

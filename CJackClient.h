@@ -22,6 +22,8 @@ public:
 	int bufferSizeChanged(jack_nframes_t nframes);
 	void updateJackBuffer(jack_default_audio_sample_t* bufferJack);
 
+	jack_client_t* getClient() const;
+
 	void addInterface(IJackClient* ijc);
 
 private:

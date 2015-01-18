@@ -3,14 +3,10 @@
 IJackClient::IJackClient(CJackClient* client)
 {
 	mCJackClient = client;
+	client->addInterface(this);
 }
 
 IJackClient::~IJackClient()
-{
-
-}
-
-int IJackClient::subProcess(jack_nframes_t nframes)
 {
 
 }
