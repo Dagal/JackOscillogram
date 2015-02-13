@@ -1,4 +1,4 @@
-#include "CJackPort.h"
+﻿#include "CJackPort.h"
 
 CJackPort::CJackPort()
 {

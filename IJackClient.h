@@ -10,7 +10,7 @@ public:
 	IJackClient(CJackClient* client);
 	~IJackClient();
 
-	virtual int subProcess(jack_nframes_t nframes) = 0;
+	virtual int subProcess(jack_nframes_t nframes);
 
 	CJackClient* getClient();
 

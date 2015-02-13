@@ -12,7 +12,7 @@ class QJackOscillogram : public QWidget, public IJackClient
 {
 	Q_OBJECT
 public:
-	explicit QJackOscillogram(CJackClient* cjc, QWidget *parent = 0);
+	explicit QJackOscillogram(CJackClient* cjc, const char* name, QWidget *parent = 0);
 	~QJackOscillogram();
 
 	virtual int subProcess(jack_nframes_t nframes);

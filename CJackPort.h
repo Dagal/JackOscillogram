@@ -1,4 +1,4 @@
-#ifndef CJACKPORT_H
+﻿#ifndef CJACKPORT_H
 #define CJACKPORT_H
 
 

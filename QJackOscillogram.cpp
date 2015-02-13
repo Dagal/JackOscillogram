@@ -1,19 +1,21 @@
 ﻿#include "QJackOscillogram.h"
 
-QJackOscillogram::QJackOscillogram(CJackClient* cjc, QWidget *parent) :
+QJackOscillogram::QJackOscillogram(CJackClient* cjc, const char* name, QWidget *parent) :
 	QWidget(parent), IJackClient(cjc)
 {
 	qDebug() << "QJackOscillogram: Création" << this;
 
+	// Récupération du nombre de port
 	// Création du port d'entrée audio
 	mJackPort = jack_port_register(getClient()->getClient(),
-																 "Input",
+																 name,
 																 JACK_DEFAULT_AUDIO_TYPE,
 																 JackPortIsInput,
 																 0);
 	qDebug() << "QJackOscillogram: Audio Input Port créé" << mJackPort;
 
-	mJackBufferSize = 512;
+	mJackBufferSize = jack_get_buffer_size(getClient()->getClient());
+	mJackFPS = jack_get_sample_rate(getClient()->getClient());
 }
 
 QJackOscillogram::~QJackOscillogram()
