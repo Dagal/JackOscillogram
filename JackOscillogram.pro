@@ -43,3 +43,6 @@ HEADERS  += MainWindow.h \
     IJackPortAudioOut.h \
     IJackPortMidiIn.h \
     IJackPortMidiOut.h
+
+DISTFILES += \
+    Doxyfile

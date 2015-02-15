@@ -2,11 +2,10 @@
 #define QJACKOSCILLOGRAM_H
 
 #include <QWidget>
-#include "IJackClient.h"
 #include <QTimer>
-#include <QDebug>
 #include <QPainter>
-#include <jack/jack.h>
+
+#include "IJackClient.h"
 
 class QJackOscillogram : public QWidget, public IJackClient
 {

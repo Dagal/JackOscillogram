@@ -2,6 +2,7 @@
 #define IJACKCLIENT_H
 
 #include "CJackClient.h"
+
 class CJackClient;
 
 class IJackClient

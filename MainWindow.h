@@ -2,16 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QPainter>
-#include <QTimer>
-#include <QDebug>
 #include <QVBoxLayout>
 
 #include "QJackOscillogram.h"
-
-#include <jack/jack.h>
-
-#include "CJackClient.h"
 
 class MainWindow : public QMainWindow
 {
